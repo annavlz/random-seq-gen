@@ -9,12 +9,14 @@ with open('input.txt') as reader:
 print("How long do you want the string to be?")
 output_size = int(input())
 size = len(input_string)
+print("How big is the window?  number between 1 and .")
+window = int(input())
 
 matrix = input_string * size
-indexes = list(range(0, size*size))
+indexes = list(range(0, size*size-window))
 
 while output_size > 0:
-    n = random.randint(0,len(indexes)-1)
+    n = random.randint(0,len(indexes)-window)
     output_string.append(matrix[indexes[n]])
     output_size -= 1
 
