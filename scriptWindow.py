@@ -25,6 +25,6 @@ for i in matrix:
     output_string.append(matrix[indexes[n]:indexes[n]+window])
 
 with open('output.txt', 'w') as writer:
-    writer.write(','.join(flatten_list(output_string)))
+    writer.write(' '.join(flatten_list(output_string)))
 
 print("Done! xx")
