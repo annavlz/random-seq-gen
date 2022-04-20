@@ -8,3 +8,4 @@ def test_align_times():
     assert len(result) == len(expected_result)
     for i in result:
         assert len(i) == len(voices)
+    assert result == expected_result

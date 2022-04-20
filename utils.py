@@ -1,27 +1,26 @@
+from operator import contains
+
+
 def align_times(structure, voices):
-    result = []
-    for n_voices, _ in structure:
-        print("Start beat")
-        voice_index = 0
-        beat_voices = []
-        for _ in voices:
-            print("Start voice")
-            print("beat_voices", beat_voices)
-            print("n_voices", n_voices)
-            print("voice_index", voice_index)
-            if len(beat_voices) <= n_voices:
-                cell_length = voices[voice_index][0][1]
-                while cell_length > 0:
-                    print("Start cell", cell_length)
-                    beat_voices.append(voice_index + 1)
-                    cell_length -= 1
-                del voices[voice_index][0]
-                n_voices -= 1
+    result = [[] for i in range(len(structure))]
+    for current_beat, form in enumerate(structure):
+        n_voices = form[0]
+        voice_number = 0
+        for i in voices:
+            if len(result[current_beat]) < n_voices:
+                current_voice = voice_number + 1
+                if not current_voice in result[current_beat]:
+                    cell_length = voices[voice_number][0][1]
+                    relative_beat = current_beat
+                    while cell_length > 0:
+                        result[relative_beat].append(voice_number + 1)
+                        cell_length -= 1
+                        relative_beat += 1
+                    del voices[voice_number][0]
             else:
-                beat_voices.append(0)
-            voice_index += 1
-            print("End voice", beat_voices)
-        result.append(beat_voices)
-        print("End beat", result)
+                result[current_beat].append(0)
+            n_voices -= 1
+            voice_number += 1
+    print(result)
     return result
 
