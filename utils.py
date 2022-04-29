@@ -1,4 +1,6 @@
+from pickletools import read_uint1
 import random
+import numpy
 from signal import pause
 
 def align_times(structure, voices):
@@ -35,15 +37,41 @@ def flatten_list(_2d_list):
             flat_list.append(element)
     return flat_list
 
-def seed_structure(size, n_voices):
-    
+def create_densities(bars_density, bars_density_length, bar_size):
+    current_bar_density = bars_density[bars_density_length]
+    next_bar_density = bars_density[bars_density_length+1]
+    result = []
+    if next_bar_density == current_bar_density:
+        result = [current_bar_density for _ in range(bar_size)]
+    elif next_bar_density > current_bar_density:
+        dim_density_step_size = (current_bar_density - next_bar_density) / bar_size
+        result = numpy.arange(next_bar_density, current_bar_density, dim_density_step_size).tolist()
+        result.reverse()
+    else:
+        cres_density_step_size = (next_bar_density - current_bar_density) / bar_size
+        result = numpy.arange(current_bar_density, next_bar_density, cres_density_step_size).tolist()
+    return result
+
+def seed_structure(size, n_voices, bar_size):
+    structure_size = int(round(size / bar_size,0))
+    bar_indexes = list(range(0, structure_size + 1))
+    bars_density = []
     structure = []
-    while size > 0:
-        n = random.randint(1,n_voices)
-        d = random.randint(-1, 1)
-        structure.append([n, d])
-        size -= 1
-    return structure
+    for i in bar_indexes:
+        d = random.randint(0, n_voices)
+        bars_density.append(d)
+    bars_density_length = 0
+    while bars_density_length < len(bars_density) - 1:
+        beats = []
+        densities = create_densities(bars_density, bars_density_length, bar_size)
+        for d in densities:
+            n = random.randint(0,n_voices)
+            beats.append([n, d])
+        structure.append(beats)
+        bars_density_length += 1
+    flat_list = flatten_list(structure)
+    print(flat_list)
+    return flat_list[0:size]
 
 def rand_with_window(voice, window, size):
     voicebasesize = int(round(size / window,0))

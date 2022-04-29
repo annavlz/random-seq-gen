@@ -23,12 +23,12 @@ bar_size = 4
 
 # Transformations
 size = tempo * minutes * unit
-structure = seed_structure(size,number_of_voices)
+structure = seed_structure(size,number_of_voices, bar_size)
 voices = randomize_voices(voices_raw, window, size)
 # print(len(voices[0]), len(voices[1]))
 times = align_times(structure, deepcopy(voices))
 processed_voices = process_voices(voices, times, pause)
-print(processed_voices[0])
-print(processed_voices[1])
+# print(processed_voices[0])
+# print(processed_voices[1])
 
 
