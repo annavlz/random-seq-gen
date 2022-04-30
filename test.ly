@@ -22,7 +22,7 @@ voice_three = {
       \voice_two
     }
     \new Staff {
-      cleff = 
+      \clef bass 
       \voice_three
     }
     % \new Staff {
