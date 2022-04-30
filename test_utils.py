@@ -1,13 +1,37 @@
 from utils import align_times, combine_voice_times, rand_with_window, seed_structure, create_densities
 
+def check_0(cell):
+    if cell[1] == 0:
+        return True
+    else:
+        return False
+
 def test_align_times():
-    structure = [[2,1], [1,5], [3,6], [1,3]]
-    voices = [[["1-1",1],["1-2",2]],[["2-1",1],["2-2",1]],[["3-1",3],["3-2",1]]]
-    expected_result = [[1,2,0],[1,0,0],[1,2,3],[3,0,0]]
+    structure = [[0,1], [2,1], [2,3], [3,3], [1,3]]
+    voices = [
+        [["1-1",1],["1-2",2],["1-3",1]],
+        [["2-1",1],["2-2",1],["2-3",1]],
+        [["3-1",3],["3-2",1],["3-3",1]]
+    ]
     result = align_times(structure, voices) 
-    assert len(result) == len(expected_result)
+    assert len(result) == len(structure)
+    filtered_0_result = []
     for i in result:
-        assert len(i) == len(voices)
+        filtered_0_result.append(list(filter(check_0, i)))
+        # voices = []
+        # print(i)
+        # for v in i:
+        #     voices.append(v)
+        # print(voices)
+        # assert len(set(voices)) == len(voices)
+    assert len(filtered_0_result[0]) == 3
+    assert len(filtered_0_result[1]) == 1
+    assert len(filtered_0_result[2]) == 0
+    assert len(filtered_0_result[3]) == 0
+    assert len(filtered_0_result[4]) == 0
+
+
+    
 
 def test_combine_voice_times():
     v_number = 1
@@ -36,6 +60,8 @@ def test_seed_structure():
         assert len(i) == 2
         assert i[0] <= n_voices
         assert i[1] <= n_voices
+        assert i[0] >= 0
+        assert i[1] >= 0
 
 def test_create_densities():
     crescendo = create_densities([5,10], 0, 5)

@@ -1,29 +1,54 @@
-from pickletools import read_uint1
 import random
 import numpy
-from signal import pause
+
+def in_beat(current_voice, current_beat_content):
+    for i in current_beat_content:
+        if i != 0 and current_voice in i:
+            return True
 
 def align_times(structure, voices):
     result = [[] for _ in range(len(structure))]
+    memory_cell = []
     for current_beat, form in enumerate(structure):
         n_voices = form[0]
+        density = form[1]
+        voices_limit = n_voices
         voices_order = random.sample(range(len(voices)), len(voices))
         voice_index = 0
         for _ in voices:
             if len(result[current_beat]) < len(voices):
-                if len(result[current_beat]) < n_voices and len(voices[voices_order[voice_index]]) > 0:
-                    current_voice = voices_order[voice_index] + 1
-                    if not current_voice in result[current_beat]:
+                enough_cells = len(voices[voices_order[voice_index]]) > 0 # safety net in case there is not enough cells
+                under_voice_limit = len(result[current_beat]) < n_voices
+                under_density_limit = density > voices_limit or density > 0
+                current_voice = voices_order[voice_index] + 1
+                if under_voice_limit and enough_cells:
+                    if not in_beat(current_voice, result[current_beat]):
                         cell_length = voices[voices_order[voice_index]][0][1]
+                        part = 1
+                        memory_cell = [current_voice, cell_length, voices[voices_order[voice_index]][0][0]]
                         relative_beat = current_beat
                         while cell_length > 0:
                             if relative_beat < len(structure):
-                                result[relative_beat].append(voices_order[voice_index] + 1)
+                                result[relative_beat].append([current_voice, [memory_cell[2],part, memory_cell[1]]])
                             cell_length -= 1
                             relative_beat += 1
+                            part += 1
                         del voices[voices_order[voice_index]][0]
+                    density -= 1
+                elif under_density_limit and len(memory_cell) > 0:
+                    part = 1
+                    cell_length = memory_cell[1]
+                    if not in_beat(current_voice, result[current_beat]):
+                        relative_beat = current_beat
+                        while cell_length > 0:
+                            if relative_beat < len(structure):
+                                result[relative_beat].append([current_voice, [memory_cell[2],part, memory_cell[1]]])
+                            cell_length -= 1
+                            relative_beat += 1
+                            part += 1
+                    density -= 1
                 else:
-                    result[current_beat].append(0)
+                    result[current_beat].append([current_voice, 0])
                 voice_index += 1
     return result
 
@@ -70,14 +95,13 @@ def seed_structure(size, n_voices, bar_size):
         structure.append(beats)
         bars_density_length += 1
     flat_list = flatten_list(structure)
-    print(flat_list)
     return flat_list[0:size]
 
 def rand_with_window(voice, window, size):
     voicebasesize = int(round(size / window,0))
     indexes = list(range(0, voicebasesize + 1))
     voicebase = []
-    for i in indexes:
+    for _ in indexes:
         n = random.randint(0,len(voice)-1-window)
         voicebase.append(voice[indexes[n]:indexes[n]+window])
     flat_list = flatten_list(voicebase)
@@ -110,4 +134,47 @@ def process_voices(voices, times, pause):
         result.append(combine_voice_times(i, voice, times, pause))
     return result
 
+def get_voice(beat):
+    return beat[0]
+    
+def process_times(times, rest):
+    strings = [[] for _ in times[0]]
+    for beat in times:
+        # beat.sort(key=get_voice)
+        for cell in beat:
+            voice_index = cell[0] - 1
+            el = cell[1]
+            if el == 0:
+                strings[voice_index].append([rest,1])
+            else: 
+                note = el[0]
+                note_part = el[1]
+                note_length = el[2]
+                if note_part == 1:
+                    strings[voice_index].append([note, note_length])
+    return strings
 
+def calc_bars(string, bar_size):
+    counter = 0
+    result = ""
+    for cell in string:
+        note = cell[0]
+        length = cell[1]
+        if counter >= bar_size:
+            result += " | "
+            counter = 0
+        result += note
+        result += " "
+        counter += length
+        # if counter + length <= bar_size:
+        #     result += note
+        # else:
+
+    return result
+
+def process_strings(strings, bar_size):
+    result = []
+    for string in strings:
+        ready_string = calc_bars(string, bar_size)
+        result.append(ready_string)
+    return result

@@ -1,4 +1,4 @@
-from utils import align_times, randomize_voices, seed_structure, process_voices
+from utils import align_times, process_strings, randomize_voices, seed_structure, process_times, process_strings
 from copy import deepcopy
 
 # voices_raw = [
@@ -9,7 +9,8 @@ from copy import deepcopy
 # ]
 voices_raw = [
     [["e'16 e' e' e'",2],["c'2",4],["d'8 d'8",2],["e'8",1],["r8",1],["a'8 a'",2],[ "c''4.",3],["a'8",1]],
-    [["c'4",1], ["d'8 d'8",2],["e'8",1],["r8",1],["a'8 a'",2],["e'8",1],["c'4",2],["d'8 d'8",2]]
+    [["c'4",1], ["d'8 d'8",2],["e'8",1],["r8",1],["a'8 a'",2],["e'8",1],["c'4",2],["d'8 d'8",2]],
+    [["d'8 d'8",2],["e'8",1],["r8",1],["a'8 a'",2],[ "c''4.",3],["d'8 d'8",2],["e'8",1],["r8",1],["a'8 a'",2],[ "c''4.",3]]
 ]
 
 # Input
@@ -18,17 +19,23 @@ minutes = 1
 unit = 2 # notes per beat
 number_of_voices = len(voices_raw)
 window = 3
-pause = "r8"
+rest = "r8"
 bar_size = 4
 
 # Transformations
 size = tempo * minutes * unit
 structure = seed_structure(size,number_of_voices, bar_size)
 voices = randomize_voices(voices_raw, window, size)
-# print(len(voices[0]), len(voices[1]))
 times = align_times(structure, deepcopy(voices))
-processed_voices = process_voices(voices, times, pause)
-# print(processed_voices[0])
-# print(processed_voices[1])
+strings = process_times(times, rest)
+bars = process_strings(strings, bar_size * unit)
+for i in bars:
+    print(i)
+
+# for beat in times:
+#     test = []
+#     for i in beat:
+#         test.append(i[0])
+#     print(test, len(set(test)) == len(test))
 
 
