@@ -77,13 +77,13 @@ def create_densities(bars_density, bars_density_length, bar_size):
         result = numpy.arange(current_bar_density, next_bar_density, cres_density_step_size).tolist()
     return result
 
-def seed_structure(size, n_voices, bar_size):
+def seed_structure(size, n_voices, bar_size, density_range):
     structure_size = int(round(size / bar_size,0))
     bar_indexes = list(range(0, structure_size + 1))
     bars_density = []
     structure = []
-    for i in bar_indexes:
-        d = random.randint(0, n_voices)
+    for _ in bar_indexes:
+        d = random.randint(density_range[0], density_range[1])
         bars_density.append(d)
     bars_density_length = 0
     while bars_density_length < len(bars_density) - 1:

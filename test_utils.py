@@ -30,9 +30,6 @@ def test_align_times():
     assert len(filtered_0_result[3]) == 0
     assert len(filtered_0_result[4]) == 0
 
-
-    
-
 def test_combine_voice_times():
     v_number = 1
     pause = "r8"
@@ -54,7 +51,8 @@ def test_seed_structure():
     size = 20
     n_voices = 5
     bar_size = 4
-    result = seed_structure(size, n_voices, bar_size)
+    density_range = [0,5]
+    result = seed_structure(size, n_voices, bar_size, density_range)
     assert len(result) == 20
     for i in result:
         assert len(i) == 2

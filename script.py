@@ -7,7 +7,7 @@ parser.add_argument("-f", "--filename", help="File name")
 args = parser.parse_args()
 
 # Input
-file = open(args.filename)
+file = open(f'{args.filename}.json')
 data = json.load(file)
 file.close()
 
@@ -17,19 +17,24 @@ unit = data['unit'] # notes per beat
 window = data['window']
 rest = data['rest']
 bar_size = data['bar_size']
+density_range = data['density_range']
 voices_raw = data['voices']
 number_of_voices = len(voices_raw)
 
 
 # Transformations
 size = int(tempo/60 * seconds * unit)
-structure = seed_structure(size, number_of_voices, bar_size)
+structure = seed_structure(size, number_of_voices, bar_size, density_range)
 voices = randomize_voices(voices_raw, window, size)
 times = align_times(structure, deepcopy(voices))
 strings = process_times(times, rest)
-bars = process_strings(strings, bar_size * unit)
-for i in bars:
-    print(i)
+output = process_strings(strings, bar_size * unit)
+
+with open(f'{args.filename}.txt', 'w') as writer:
+    for i, voice in enumerate(output):
+        writer.write(f'Voice{i+1}   ')
+        writer.write(voice)
+        writer.write("\n")
 
 # for beat in times:
 #     test = []
