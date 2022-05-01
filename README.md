@@ -17,8 +17,14 @@ It will use `part1.json` file as input, and will write output to `part1.txt` fil
 2. run `musicxml2ly part1.musicxml` 
 3. open `part1.ly` and copy notes only to `part1.json`
 4. update parameters and edit the string to match the example
-5. run `python3 main.py -f part1.json`
+5. run `python3 main.py -f part1`
 6. create `part1_output.ly` by copying `example.ly`
 7. open `part1.txt` and copy voices to `part1_output.ly`, remember to add `\relative <>` to the voices
 8. run `ly musicxml part1_output.ly > part1_output.musicxml`
 9. open `part1_output.musicxml` in Sibelius
+
+Voices structure:
+all voices [
+    voice [ cell [ string "", number n ], cell [ ... ], cell [ ... ]],
+    voice [ ... ]
+]
