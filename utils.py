@@ -140,7 +140,6 @@ def get_voice(beat):
 def process_times(times, rest):
     strings = [[] for _ in times[0]]
     for beat in times:
-        # beat.sort(key=get_voice)
         for cell in beat:
             voice_index = cell[0] - 1
             el = cell[1]
@@ -154,27 +153,17 @@ def process_times(times, rest):
                     strings[voice_index].append([note, note_length])
     return strings
 
-def calc_bars(string, bar_size):
-    counter = 0
+def calc_bars(string):
     result = ""
     for cell in string:
         note = cell[0]
-        length = cell[1]
-        if counter >= bar_size:
-            result += " | "
-            counter = 0
         result += note
         result += " "
-        counter += length
-        # if counter + length <= bar_size:
-        #     result += note
-        # else:
-
     return result
 
 def process_strings(strings, bar_size):
     result = []
     for string in strings:
-        ready_string = calc_bars(string, bar_size)
+        ready_string = calc_bars(string)
         result.append(ready_string)
     return result
