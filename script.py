@@ -15,7 +15,7 @@ voices_raw = [
 
 # Input
 tempo = 20 # beats per minute
-minutes = 1
+seconds = 30
 unit = 2 # notes per beat
 number_of_voices = len(voices_raw)
 window = 3
@@ -23,7 +23,7 @@ rest = "r8"
 bar_size = 4
 
 # Transformations
-size = tempo * minutes * unit
+size = tempo/60 * seconds * unit
 structure = seed_structure(size,number_of_voices, bar_size)
 voices = randomize_voices(voices_raw, window, size)
 times = align_times(structure, deepcopy(voices))
