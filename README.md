@@ -4,9 +4,10 @@ then `cd random-seq-gen`
 
 `musicxml2ly <name of the .musicxmlfile>` will create a .ly with the same name
 `lilypond <name of .ly file.>` will create a pdf with the same name
-`ly musicxml <name of .ly file>` will create a musicxml file with the same name
+`ly musicxml <name of .ly file> > <name of new file>` will create a musicxml file with the same name
 
 To install numpy `pip3 install numpy`
+To install ly `pip3 install python-ly`
 
 To run the main script `python3 main.py -f <file name without extention>`
 Example `python2 main.py -f part1`
