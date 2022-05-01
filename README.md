@@ -9,6 +9,16 @@ then `cd random-seq-gen`
 To install numpy `pip3 install numpy`
 To install ly `pip3 install python-ly`
 
-To run the main script `python3 main.py -f <file name without extention>`
-Example `python2 main.py -f part1`
+To run the main script `python3 main.py -f <file name without extension>`
+Example `python3 main.py -f part1`
 It will use `part1.json` file as input, and will write output to `part1.txt` file.
+
+1. Create file in Sibelius and export it as musicxml
+2. run `musicxml2ly part1.musicxml` 
+3. open `part1.ly` and copy notes only to `part1.json`
+4. update parameters and edit the string to match the example
+5. run `python3 main.py -f part1.json`
+6. create `part1_output.ly` by copying `example.ly`
+7. open `part1.txt` and copy voices to `part1_output.ly`, remember to add `\relative <>` to the voices
+8. run `ly musicxml part1_output.ly > part1_output.musicxml`
+9. open `part1_output.musicxml` in Sibelius
