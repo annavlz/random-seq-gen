@@ -18,7 +18,7 @@ window = data['window']
 rest = data['rest']
 bar_size = data['bar_size']
 density_range = data['density_range']
-voices_raw = data['voices']
+voices_raw = list(data['voices'].values())
 number_of_voices = len(voices_raw)
 
 
