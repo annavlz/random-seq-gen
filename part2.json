@@ -1,0 +1,31 @@
+
+{
+    "tempo": 120,
+    "bar_size": 18,
+    "unit": 2,
+    "seconds": 60,
+    "density_range": [0,5],
+    "window": 2,
+    "rest": "r8",
+    "voices": [
+    
+   
+
+    [["a2 b2",8],
+     ["r4 b2.",8],
+     ["r16 a16 a8 b2.",8],
+     ["r8 b8 r8 f8 r16 a16 b16 r16",6]],
+
+    
+    [["r8 bes8 as8 r8 bes8 as8 r8",7],
+     ["as8 a8 r8 a8 a8 r8 bes8",7],
+     ["as8 r8 as8 as8 r8 bes8",6],
+     ["b8 b8 as8 r8 a8 ges8 ges8 ges8 r8 ges8 f4",11]],
+    
+   
+    [["a16 a16 a16 a16 a16 a16 r16 r16 r16 a16 r16 a16 r16 a16 f8 a16 a16 a16 a16 a16 a16 r16 r16",11],
+     ["r16 a16 r16 a16 r16 a16 f8 a16 a16 r16 a16 a16 a16 r8",8],
+     ["r16 a16 r16 a16 r16 a16 f8 a16 a16 a16 a16 a16 a16 r16 r16 r16 a16",9],["r16 a16 r16 a16 f8",3]]
+
+    ]
+}

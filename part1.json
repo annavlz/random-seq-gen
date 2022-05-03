@@ -1,0 +1,26 @@
+
+{
+    "tempo": 120,
+    "bar_size": 18,
+    "unit": 2,
+    "seconds": 60,
+    "density_range": [0,5],
+    "window": 2,
+    "rest": "r8",
+    "voices": [
+    
+  
+    [["r8 f8 d4 b'16 cis16 r8",6],
+     ["r16 g16 r16 g16 r16 g16 r8",4],
+     ["a4 e2",6]],
+   
+    [["bes4 f'4 cis16 d16 r8",6],
+     ["as8. as16 r4",4],
+    ["a4 e2",6]],
+   
+    [["c8 e8 bes4 r4",4],
+     ["r16 cis16 d8 as8. a16 r4",6],
+     ["a2.",6]]
+    
+    ]
+}
